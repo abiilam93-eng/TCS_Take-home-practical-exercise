@@ -1,0 +1,85 @@
+Create a small command-line tool that compares the headers of two CSV files using python.
+File 1: expected_orders.csv
+Create this file:
+order_id, customer_id, amount, currency, status, created_at, country
+1, C001, 100.50, GBP, PAID, 2026-05-20, UK
+2, C002, 40.00, GBP, PENDING, 2026-05-20, UK
+
+File 2: actual_orders.csv
+Create this file:
+order_id, customer_id, total_amount, currency, status, processed_at, country_code
+1, C001, 100.50, GBP, PAID, 2026-05-20, GB
+2, C002, 40.00, GBP, PENDING, 2026-05-20, GB
+
+Coding Task 1 — Header Comparison
+Write a script/program that:
+1. Accepts two CSV file paths as input.
+2. Reads only the first row from each file.
+3. Splits the first row into headers.
+4. Trims whitespace around each header.
+5. Compares the two header lists.
+6. Prints:
+   - headers only in the expected file
+   - headers only in the actual file
+   - headers present in both files
+   - whether the common headers appear in the same relative order
+Example command for Python:
+python compare_headers.py expected_orders.csv actual_orders.csv
+
+Coding Task 2 — Add Basic Tests
+Add at least three simple tests for your comparison logic.
+For example:
+1. Two files with identical headers.
+2. Files where one header is missing.
+3. Files where headers have extra spaces.
+4. Files with Windows line endings.
+5. Files where common headers are present but in a different order.
+You can use a test framework if you want, but it is not required. Simple assertions are fine.
+
+Coding Task 3 — Error Handling
+Your script should handle these cases clearly:
+1. Missing file path argument.
+2. File does not exist.
+3. Empty CSV file.
+4. Header row exists but has no valid headers.
+The program should print a useful error message instead of failing silently.
+
+Ran a command, shared files
+I've created the four files: the two sample CSVs, compare_headers.py, and test_compare_headers.py. All 10 tests pass. Running python compare_headers.py expected_orders.csv actual_orders.csv on the samples prints:
+
+Only in expected: amount, created_at, country
+Only in actual:   total_amount, processed_at, country_code
+In both:          order_id, customer_id, currency, status
+Common headers in same relative order: YES
+Task 1 (comparison). The script reads only the first line of each file and splits it with Python's csv module, so quoted headers work. It trims whitespace and ignores empty cells. It also handles a UTF-8 BOM and Windows line endings. The comparison follows the order of the files, and duplicate headers are collapsed.
+
+Task 2 (tests). There are 10 unittest tests, run with python -m unittest -v. They cover:
+
+identical headers
+a missing header
+a different order
+extra spaces
+Windows \r\n line endings
+the two sample files
+each error case
+Task 3 (errors). Errors go to stderr as Error: ... messages, with these exit codes:
+
+Case	Exit code
+Wrong number of arguments (prints usage)	2
+File not found (or path is a directory)	1
+Empty file	1
+First row has no valid headers (e.g. ,,,)	1
+Because the sample CSVs put a space after each comma, the trimming step is needed for them to compare correctly.
+
+
+Compare headers
+PY 
+
+Test compare headers
+PY 
+
+Expected orders
+Table·CSV 
+
+Actual orders
+Table·CSV 
