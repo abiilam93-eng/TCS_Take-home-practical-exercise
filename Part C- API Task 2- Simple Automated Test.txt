@@ -1,13 +1,13 @@
 import requests
 
 url="https://api.com/api/orders/ORD-1001"
-Order_id= "ORD-1001"
-Token="Auth_token"
-headers= {"Authorization":f"Bearer {Token}"}
-r= requests.get(url, header= headers)
+order_id= "ORD-1001"
+token="Auth_token"
+headers= {"Authorization": f"Bearer {token}"}
+r= requests.get(url, headers= headers)
 print(f"Status Code: {r.status_code}")
 
 assert r.status_code == 200
 
-body= response.json()
+body= r.json()
 assert body["status"]=="PAID"
